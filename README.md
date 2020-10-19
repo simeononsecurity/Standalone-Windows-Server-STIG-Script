@@ -16,11 +16,8 @@ Standalone systems are some of the most difficult and annoying systems to secure
   - Minus system documentation, this collection should bring you up to about 95% compliance on all the STIGS/SRGs applied.
 
 ## Requirements:
-- [X] Windows 10 Enterprise is **Required** per STIG.
+
 - [x] [Standards](https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-highly-secure) for a highly secure Windows 10 device
-- [x] System is [fully up to date](https://support.microsoft.com/en-gb/help/4027667/windows-10-update)
-  - Currently Windows 10 **v1909** or **v2004**. 
-  - Run the [Windows 10 Upgrade Assistant](https://support.microsoft.com/en-us/help/3159635/windows-10-update-assistant) to be update and verify latest major release.
 - [X] Hardware Requirements
   - [Hardware Requirements for Memory Integrity](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/requirements-and-deployment-planning-guidelines-for-virtualization-based-protection-of-code-integrity#baseline-protections) 
   - [Hardware Requirements for Windows Defender Application Guard](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-guard/reqs-wd-app-guard)
