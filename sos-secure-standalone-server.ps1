@@ -264,8 +264,6 @@ If (Test-Path -Path C:\Windows\Microsoft.NET\Framework64\v4.0.30319){
     Write-Host ".Net 64-Bit v4.0.30319 Is Not Installed"
 }
 
-FINDSTR /i /s "NetFx40_LegacySecurityPolicy" c:\*.exe.config 
-
 #VM Performance Improvements
 # Apply appearance customizations to default user registry hive, then close hive file
 & REG LOAD HKLM\DEFAULT C:\Users\Default\NTUSER.DAT
