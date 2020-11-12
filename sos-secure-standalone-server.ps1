@@ -98,8 +98,8 @@ Write-Host "Enabling Network Protection and setting to block mode"
 Set-MpPreference -EnableNetworkProtection Enabled
 
 #Enable Cloud-delivered Protections
-#Set-MpPreference -MAPSReporting Advanced
-#Set-MpPreference -SubmitSamplesConsent SendAllSamples
+Set-MpPreference -MAPSReporting Advanced
+Set-MpPreference -SubmitSamplesConsent SendAllSamples
 
 #Enable Windows Defender Attack Surface Reduction Rules
 #https://docs.microsoft.com/en-us/windows/security/threat-protection/microsoft-defender-atp/enable-attack-surface-reduction
@@ -119,7 +119,7 @@ Add-MpPreference -AttackSurfaceReductionRules_Ids 5BEB7EFE-FD9A-4556-801D-275E5F
 #Block Win32 API calls from Office macros
 Add-MpPreference -AttackSurfaceReductionRules_Ids 92E97FA1-2EDF-4476-BDD6-9DD0B4DDDC7B -AttackSurfaceReductionRules_Actions Enabled
 #Block executable files from running unless they meet a prevalence, age, or trusted list criterion
-Add-MpPreference -AttackSurfaceReductionRules_Ids 01443614-cd74-433a-b99e-2ecdc07bfc25 -AttackSurfaceReductionRules_Actions AuditMode
+Add-MpPreference -AttackSurfaceReductionRules_Ids 01443614-cd74-433a-b99e-2ecdc07bfc25 -AttackSurfaceReductionRules_Actions Enabled
 #Use advanced protection against ransomware
 Add-MpPreference -AttackSurfaceReductionRules_Ids c1db55ab-c21a-4637-bb3f-a12568109d35 -AttackSurfaceReductionRules_Actions Enabled
 #Block credential stealing from the Windows local security authority subsystem
