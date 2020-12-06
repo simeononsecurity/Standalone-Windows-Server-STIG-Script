@@ -17,9 +17,14 @@ Standalone systems are some of the most difficult and annoying systems to secure
 
 ## Requirements:
 
-- [x] [Standards](https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-highly-secure) for a highly secure Windows device
+
+## Requirements:
+- [X] [Standards](https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-highly-secure) for a highly secure windows device.
+- [X] Bitlocker must be suspended or turned off prior to implementing this script, it can be enabled again after rebooting.
+  - Follow-up runs of this script can be run without disabling bitlocker.
 - [X] Hardware Requirements
   - [Hardware Requirements for Memory Integrity](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/requirements-and-deployment-planning-guidelines-for-virtualization-based-protection-of-code-integrity#baseline-protections) 
+  - [Hardware Requirements for Virtualization-Based Security](https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-vbs)
   - [Hardware Requirements for Windows Defender Application Guard](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-guard/reqs-wd-app-guard)
   - [Hardware Requirements for Windows Defender Credential Guard](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-requirements)
   
@@ -30,22 +35,15 @@ Standalone systems are some of the most difficult and annoying systems to secure
   - [Memory integrity](https://docs.microsoft.com/en-us/windows/security/threat-protection/device-guard/memory-integrity)
   - [Windows Defender Application Guard](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-guard/wd-app-guard-overview)
   - [Windows Defender Credential Guard](https://docs.microsoft.com/en-us/windows/security/identity-protection/credential-guard/credential-guard-how-it-works)
-
+  
 ## A list of scripts and tools this collection utilizes:
-
+- [Cyber.mil - Group Policy Objects](https://public.cyber.mil/stigs/gpo/)
 - [Microsoft Security Compliance Toolkit 1.0](https://www.microsoft.com/en-us/download/details.aspx?id=55319)
 
-- [Cyber.mil - Group Policy Objects](https://public.cyber.mil/stigs/gpo/)
-
-- [NSACyber - Bitlocker Guidance](https://github.com/nsacyber/BitLocker-Guidance)
-
 ## Additional configurations were considered from:
-
-- [NSACyber - Hardware-and-Firmware-Security-Guidance](https://github.com/nsacyber/Hardware-and-Firmware-Security-Guidance)
-
-- [NSACyber - Application Whitelisting Using Microsoft AppLocker](https://apps.nsa.gov/iad/library/ia-guidance/tech-briefs/application-whitelisting-using-microsoft-applocker.cfm)
-
 - [Microsoft - Windows Defender Application Control](https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/windows-defender-application-control-design-guide)
+- [NSACyber - Application Whitelisting Using Microsoft AppLocker](https://apps.nsa.gov/iad/library/ia-guidance/tech-briefs/application-whitelisting-using-microsoft-applocker.cfm)
+- [NSACyber - Hardware-and-Firmware-Security-Guidance](https://github.com/nsacyber/Hardware-and-Firmware-Security-Guidance)
 
 ## STIGS/SRGs Applied:
 - [Firefox V4R29](https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MOZ_FireFox_V4R29_STIG.zip)
@@ -60,9 +58,16 @@ Standalone systems are some of the most difficult and annoying systems to secure
 - [Windows Server 2019 V2R1](https://dl.cyber.mil/stigs/zip/U_MS_Windows_Server_2019_V2R1_STIG.zip)
 
 ## How to run the script
-
-**The script may be launched from the extracted GitHub download like this:**
+### Manual Install:
+If manually downloaded, the script must be launched from the directory containing all the files from the [GitHub Repository](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script)
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
+Get-ChildItem -Recurse *.ps1 | Unblock-File
+.\sos-secure-standalone-server.ps1
+```
+### Automated Install:
+The script may be launched from the extracted GitHub download like this:
 ```powershell
 iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/standalonewindowsserver.ps1'))
 ```
-If manually downloaded, the script must be launched from the directory containing all the files from the [GitHub Repository](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script)
+
