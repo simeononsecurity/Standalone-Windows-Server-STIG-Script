@@ -16,9 +16,6 @@ Standalone systems are some of the most difficult and annoying systems to secure
   - Minus system documentation, this collection should bring you up to about 95% compliance on all the STIGS/SRGs applied.
 
 ## Requirements:
-
-
-## Requirements:
 - [X] [Standards](https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-highly-secure) for a highly secure windows device.
 - [X] Bitlocker must be suspended or turned off prior to implementing this script, it can be enabled again after rebooting.
   - Follow-up runs of this script can be run without disabling bitlocker.
