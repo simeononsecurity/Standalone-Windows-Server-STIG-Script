@@ -104,168 +104,60 @@ If (Test-Path -Path "C:\temp\JAVA\"){
     Write-Output "JAVA Configs Installed"
 }
 
-
-# .Net STIG
-
 #SimeonOnSecurity - Microsoft .Net Framework 4 STIG Script
 #https://github.com/simeononsecurity
 #https://dl.dod.cyber.mil/wp-content/uploads/stigs/zip/U_MS_DotNet_Framework_4-0_V1R9_STIG.zip
 #https://docs.microsoft.com/en-us/dotnet/framework/tools/caspol-exe-code-access-security-policy-tool
 
-#Continue on error
-$ErrorActionPreference= 'silentlycontinue'
-
-#Require elivation for script run
-#Requires -RunAsAdministrator
-Write-Output "Elevating priviledges for this process"
-do {} until (Elevate-Privileges SeTakeOwnershipPrivilege)
-
-If (Test-Path -Path "HKLM:\Software\Microsoft\StrongName\Verification"){
-    Remove-Item "HKLM:\Software\Microsoft\StrongName\Verification" -Recurse -Force
-    Write-Host ".Net StrongName Verification Registry Removed"
-}
+$netframework32="C:\Windows\Microsoft.NET\Framework"
+$netframework64="C:\Windows\Microsoft.NET\Framework64"
+$netframeworks=($netframework32,$netframework64)
 
 # .Net 32-Bit
-If (Test-Path -Path C:\Windows\Microsoft.NET\Framework\v2.0.50727){
-    Write-Host ".Net 32-Bit v2.0.50727 Is Installed"
-    C:\Windows\Microsoft.NET\Framework\v2.0.50727\caspol.exe -q -f -pp on 
-    C:\Windows\Microsoft.NET\Framework\v2.0.50727\caspol.exe -m -lg
+ForEach ($dotnet32version in (Get-ChildItem $netframework32 | ?{ $_.PSIsContainer }).Name){
+    $netframework32="C:\Windows\Microsoft.NET\Framework"
+    Write-Host ".Net 32-Bit $dotnet32version Is Installed"
+    cmd /c $netframework32\$dotnet32version\caspol.exe -q -f -pp on 
+    cmd /c $netframework32\$dotnet32version\caspol.exe -m -lg
+    #Vul ID: V-30935	   	Rule ID: SV-40977r3_rule	   	STIG ID: APPNET0063
     If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\AllowStrongNameBypass"){
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -Value "0" -Force
     }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\" -Name ".NETFramework" -Force
+        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0" -Force
     }
-    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v2.0.50727\SchUseStrongCrypto"){
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v2.0.50727\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
+    #Vul ID: V-81495	   	Rule ID: SV-96209r2_rule	   	STIG ID: APPNET0075	
+    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\$dotnet32version\SchUseStrongCrypto"){
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\$dotnet32version\" -Name "SchUseStrongCrypto" -Value "1" -Force
     }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v2.0.50727\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework" -Name "$dotnet32version" -Force
+        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\$dotnet32version\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1" -Force
     }
-}Else {
-    Write-Host ".Net 32-Bit v2.0.50727 Is Not Installed"
 }
-If (Test-Path -Path C:\Windows\Microsoft.NET\Framework\v3.0){
-    Write-Host ".Net 32-Bit v3.0 Is Installed"
-    C:\Windows\Microsoft.NET\Framework\v3.0\caspol.exe -q -f -pp on 
-    C:\Windows\Microsoft.NET\Framework\v3.0\caspol.exe -m -lg
-    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\AllowStrongNameBypass"){
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
+# .Net 64-Bit
+ForEach ($dotnet64version in (Get-ChildItem $netframework64 | ?{ $_.PSIsContainer }).Name){
+    $netframework64="C:\Windows\Microsoft.NET\Framework64"
+    Write-Host ".Net 64-Bit $dotnet64version Is Installed"
+    cmd /c $netframework64\$dotnet64version\caspol.exe -q -f -pp on 
+    cmd /c $netframework64\$dotnet64version\caspol.exe -m -lg
+    #Vul ID: V-30935	   	Rule ID: SV-40977r3_rule	   	STIG ID: APPNET0063
+    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\AllowStrongNameBypass") {
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -Value "0" -Force
     }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
+        New-Item -Path "HKLM:\SOFTWARE\Microsoft\" -Name ".NETFramework" -Force
+        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0" -Force
     }
-    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v3.0\SchUseStrongCrypto"){
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v3.0\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
+    #Vul ID: V-81495	   	Rule ID: SV-96209r2_rule	   	STIG ID: APPNET0075	
+    If (Test-Path -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\$dotnet64version\") {
+        Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\$dotnet64version\" -Name "SchUseStrongCrypto" -Value "1" -Force
     }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v3.0\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
+        New-Item -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\" -Name "$dotnet64version" -Force
+        New-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\$dotnet64version\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1" -Force
     }
-}Else {
-    Write-Host ".Net 32-Bit v3.0 Is Not Installed"
-}
-If (Test-Path -Path C:\Windows\Microsoft.NET\Framework\v3.5){
-    Write-Host ".Net 32-Bit v3.5 Is Installed"
-    C:\Windows\Microsoft.NET\Framework\v3.5\caspol.exe -q -f -pp on 
-    C:\Windows\Microsoft.NET\Framework\v3.5\caspol.exe -m -lg
-    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\AllowStrongNameBypass"){
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
-    }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
-    }
-    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v3.5\SchUseStrongCrypto"){
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v3.5\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
-    }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v3.5\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
-    }
-}Else {
-    Write-Host ".Net 32-Bit v3.5 Is Not Installed"
-}
-If (Test-Path -Path C:\Windows\Microsoft.NET\Framework\v4.0.30319){
-    Write-Host ".Net 32-Bit v4.0.30319 Is Installed"
-    C:\Windows\Microsoft.NET\Framework\v4.0.30319\caspol.exe -q -f -pp on 
-    C:\Windows\Microsoft.NET\Framework\v4.0.30319\caspol.exe -m -lg
-    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\AllowStrongNameBypass"){
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
-    }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
-    }
-    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319\SchUseStrongCrypto"){
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
-    }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\v4.0.30319\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
-    }
-    #Copy-Item -Path .\Files\machine.config -Destination C:\Windows\Microsoft.NET\Framework\v4.0.30319\Config -Force 
-}Else {
-    Write-Host ".Net 32-Bit v4.0.30319 Is Not Installed"
 }
 
-# .Net 64-Bit
-If (Test-Path -Path C:\Windows\Microsoft.NET\Framework64\v2.0.50727){
-    Write-Host ".Net 64-Bit v2.0.50727 Is Installed"
-    C:\Windows\Microsoft.NET\Framework64\v2.0.50727\caspol.exe -q -f -pp on 
-    C:\Windows\Microsoft.NET\Framework64\v2.0.50727\caspol.exe -m -lg
-    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\AllowStrongNameBypass") {
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
-    }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
-    }
-    If (Test-Path -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v2.0.50727\") {
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v2.0.50727\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
-    }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v2.0.50727\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
-    }
-}Else {
-    Write-Host ".Net 64-Bit v2.0.50727 Is Not Installed"
-}
-If (Test-Path -Path C:\Windows\Microsoft.NET\Framework64\v3.0){
-    Write-Host ".Net 64-Bit v3.0 Is Installed"
-    C:\Windows\Microsoft.NET\Framework64\v3.0\caspol.exe -q -f -pp on 
-    C:\Windows\Microsoft.NET\Framework64\v3.0\caspol.exe -m -lg
-    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\AllowStrongNameBypass") {
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
-    }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
-    }
-    If (Test-Path -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v3.0\") {
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v3.0\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
-    }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v3.0\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
-    }
-}Else {
-    Write-Host ".Net 64-Bit v3.0 Is Not Installed"
-}
-If (Test-Path -Path C:\Windows\Microsoft.NET\Framework64\v3.5){
-    Write-Host ".Net 64-Bit v3.5 Is Installed"
-    C:\Windows\Microsoft.NET\Framework64\v3.5\caspol.exe -q -f -pp on 
-    C:\Windows\Microsoft.NET\Framework64\v3.5\caspol.exe -m -lg
-    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\AllowStrongNameBypass") {
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
-    }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
-    }
-    If (Test-Path -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v3.5\") {
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v3.5\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
-    }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v3.5\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
-    }
-}Else {
-    Write-Host ".Net 64-Bit v3.5 Is Not Installed"
-}
-If (Test-Path -Path C:\Windows\Microsoft.NET\Framework64\v4.0.30319){
-    Write-Host ".Net 64-Bit v4.0.30319 Is Installed"
-    C:\Windows\Microsoft.NET\Framework64\v4.0.30319\caspol.exe -q -f -pp on 
-    C:\Windows\Microsoft.NET\Framework64\v4.0.30319\caspol.exe -m -lg
-    If (Test-Path -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\AllowStrongNameBypass") {
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
-    }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\.NETFramework\" -Name "AllowStrongNameBypass" -PropertyType "DWORD" -Value "0"
-    }
-    If (Test-Path -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319\") {
-        Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
-    }Else {
-        New-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319\" -Name "SchUseStrongCrypto" -PropertyType "DWORD" -Value "1"
-    }
-    #Copy-Item -Path .\Files\machine.config -Destination C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config -Force 
-}Else {
-    Write-Host ".Net 64-Bit v4.0.30319 Is Not Installed"
-}
+#Vul ID: V-30937	   	Rule ID: SV-40979r3_rule	   	STIG ID: APPNET0064	  
+#FINDSTR /i /s "NetFx40_LegacySecurityPolicy" c:\*.exe.config 
 
 #VM Performance Improvements
 # Apply appearance customizations to default user registry hive, then close hive file
