@@ -47,6 +47,7 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\MicrosoftEdge\Privacy"
 
 Start-Job -Name "VM and VDI Optimizations" -ScriptBlock {
 #VM Performance Improvements
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" -Name VisualFXSetting -Type DWORD -Value 2
 # Apply appearance customizations to default user registry hive, then close hive file
 & REG LOAD HKLM\DEFAULT C:\Users\Default\NTUSER.DAT
 New-ItemProperty -Path "HKLM:\Default\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name IconsOnly -Type DWORD -Value 1 -Force
