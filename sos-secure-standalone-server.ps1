@@ -301,7 +301,6 @@ Foreach ($gpocategory in Get-ChildItem "$(Get-Location)\Files\GPOs") {
     }
 }
 
-Start-Job -Name "Audit Policy" -ScriptBlock {
     New-Item -Force -ItemType "Directory" "C:\temp"
     Copy-Item .\files\auditing\auditbaseline.csv C:\temp\auditbaseline.csv 
 
@@ -314,7 +313,6 @@ Start-Job -Name "Audit Policy" -ScriptBlock {
     #Confirm Changes
     auditpol /list /user /v
     auditpol.exe /get /category:*
-}
 
 Add-Type -AssemblyName PresentationFramework
 $Answer = [System.Windows.MessageBox]::Show("Reboot to make changes effective?", "Restart Computer", "YesNo", "Question")
