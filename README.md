@@ -73,3 +73,6 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.
 - Import the ADMX Policy definitions from this [repo](https://github.com/simeononsecurity/STIG-Compliant-Domain-Prep/tree/master/Files/PolicyDefinitions) into *C:\windows\PolicyDefinitions* on the system you're trying to modify.
 - Open ```gpedit.msc``` on on the system you're trying to modify. 
 
+
+## Ansible:
+We now offer a playbook collection for this script. Please see the following [repo.](https://github.com/simeononsecurity/Windows_STIG_Ansible)
