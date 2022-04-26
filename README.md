@@ -17,6 +17,11 @@ Standalone systems are some of the most difficult and annoying systems to secure
 - This script is not designed to bring a system to 100% compliance, rather it should be used as a stepping stone to complete most, if not all, the configuration changes that can be scripted. 
   - Minus system documentation, this collection should bring you up to about 95% compliance on all the STIGS/SRGs applied.
 
+## Ansible:
+We now offer a playbook collection for this script. Please see the following:
+- [Github Repo](https://github.com/simeononsecurity/Windows_STIG_Ansible)
+- [Ansible Galaxy](https://galaxy.ansible.com/simeononsecurity/windows_stigs)
+
 ## Requirements:
 - [X] [Standards](https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-highly-secure) for a highly secure windows device.
 - [X] Bitlocker must be suspended or turned off prior to implementing this script, it can be enabled again after rebooting.
@@ -72,7 +77,3 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.
 ## Editing policies in Local Group Policy after the fact:
 - Import the ADMX Policy definitions from this [repo](https://github.com/simeononsecurity/STIG-Compliant-Domain-Prep/tree/master/Files/PolicyDefinitions) into *C:\windows\PolicyDefinitions* on the system you're trying to modify.
 - Open ```gpedit.msc``` on on the system you're trying to modify. 
-
-
-## Ansible:
-We now offer a playbook collection for this script. Please see the following [repo.](https://github.com/simeononsecurity/Windows_STIG_Ansible)
