@@ -519,7 +519,7 @@ ForEach ($DotNetVersion in (Get-ChildItem $netframework32 -Directory)) {
     #>
     
     #Ensuring .net version has machine.config
-    If (Test-Path "$($DotNetVersion.FullName)\Config\Machine.config") {
+    <#If (Test-Path "$($DotNetVersion.FullName)\Config\Machine.config") {
         #.net Version testing.
         If (($DotNetVersion -Split "v" )[1] -ge 2) {
             #.net version testing.
@@ -538,8 +538,8 @@ ForEach ($DotNetVersion in (Get-ChildItem $netframework32 -Directory)) {
     }
     Else {
         Write-Host "No Machine.Conf file exists for .Net version $DotNetVersion" -ForegroundColor Red -BackgroundColor Black
-    }#End testpath
-}
+    }#End testpath #>
+} 
 
 # .Net 64-Bit
 ForEach ($DotNetVersion in (Get-ChildItem $netframework64 -Directory)) {  
@@ -583,7 +583,7 @@ ForEach ($DotNetVersion in (Get-ChildItem $netframework64 -Directory)) {
     #>
     
     #Ensuring current version has a machine.config to use
-    If (Test-Path "$($DotNetVersion.FullName)\Config\Machine.config") {
+    <# If (Test-Path "$($DotNetVersion.FullName)\Config\Machine.config") {
         #version testing
         If (($DotNetVersion -Split "v" )[1] -ge 2) {
             #More version testing.
@@ -602,7 +602,7 @@ ForEach ($DotNetVersion in (Get-ChildItem $netframework64 -Directory)) {
     }
     Else {
         Write-Host "No Machine.Conf file exists for .Net version $DotNetVersion" -ForegroundColor Red -BackgroundColor Black
-    }#End testpath
+    }#End testpath #>
 }
 
 #GPO Configurations
