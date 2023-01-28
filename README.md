@@ -67,6 +67,13 @@ We now offer a playbook collection for this script. Please see the following:
 - Open ```gpedit.msc``` on on the system you're trying to modify. 
 
 ## How to run the script:
+
+### Automated Install:
+The script may be launched from the extracted GitHub download like this:
+```powershell
+iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/standalonewindowsserver.ps1'))
+```
+
 ### Manual Install:
 If manually downloaded, the script must be launched from the directory containing all the files from the [GitHub Repository](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script)
 
@@ -111,10 +118,4 @@ You can also specify multiple parameters in the command like this:
 ```
 
 Note that in this example, both the Firefox and Chrome parameters are set to $false.
-
-### Automated Install:
-The script may be launched from the extracted GitHub download like this:
-```powershell
-iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/standalonewindowsserver.ps1'))
-```
 
