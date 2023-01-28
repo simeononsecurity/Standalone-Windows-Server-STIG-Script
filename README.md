@@ -62,20 +62,59 @@ We now offer a playbook collection for this script. Please see the following:
 - [Windows Server 2016 V2R2](https://public.cyber.mil/stigs/downloads/)
 - [Windows Server 2019 V2R2](https://public.cyber.mil/stigs/downloads/)
 
-## How to run the script
+## Editing policies in Local Group Policy after the fact:
+- Import the ADMX Policy definitions from this [repo](https://github.com/simeononsecurity/STIG-Compliant-Domain-Prep/tree/master/Files/PolicyDefinitions) into *C:\windows\PolicyDefinitions* on the system you're trying to modify.
+- Open ```gpedit.msc``` on on the system you're trying to modify. 
+
+## How to run the script:
 ### Manual Install:
 If manually downloaded, the script must be launched from the directory containing all the files from the [GitHub Repository](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script)
+
+All of the parameters in the "sos-secure-standalone-server.ps1" script are optional, with a default value of $true. This means that if no value is specified for a parameter when the script is run, it will be treated as if it were set to $true.
+
+The script takes the following parameters, all of which are optional and default to $true if not specified:
+
+- **cleargpos**: (Boolean) Clear GPOs not being used
+- **installupdates**: (Boolean) Install updates and reboot if necessary
+- **adobe**: (Boolean) STIG Adobe Reader
+- **firefox**: (Boolean) STIG Firefox
+- **chrome**: (Boolean) STIG Chrome
+- **IE11**: (Boolean) STIG Internet Explorer 11
+- **edge**: (Boolean) STIG Edge
+- **dotnet**: (Boolean) STIG .NET Framework
+- **office**: (Boolean) STIG Office
+- **onedrive**: (Boolean) STIG OneDrive
+- **java**: (Boolean) STIG Java
+- **windows**: (Boolean) STIG Windows Server
+- **defender**: (Boolean) STIG Windows Defender
+- **firewall**: (Boolean) STIG Windows Firewall
+- **mitigations**: (Boolean) STIG Mitigations
+- **nessusPID**: (Boolean) Resolve Unquoted Strings in Path
+- **horizon**: (Boolean) STIG VMware Horizon
+- **sosoptional**: (Boolean) Optional STIG/Hardening items
+
+An example of how to run the script with all default parameters would be:
+
 ```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
-Get-ChildItem -Recurse *.ps1 | Unblock-File
 .\sos-secure-standalone-server.ps1
 ```
+If you want to specify a different value for one or more of the parameters, you can include them in the command along with their desired value. For example, if you wanted to run the script and set the $firefox parameter to $false, the command would be:
+
+```powershell
+.\sos-secure-standalone-server.ps1 -firefox $false
+```
+
+You can also specify multiple parameters in the command like this:
+
+```powershell
+.\sos-secure-standalone-server.ps1 -firefox $false -chrome $false
+```
+
+Note that in this example, both the Firefox and Chrome parameters are set to $false.
+
 ### Automated Install:
 The script may be launched from the extracted GitHub download like this:
 ```powershell
 iex ((New-Object System.Net.WebClient).DownloadString('https://simeononsecurity.ch/scripts/standalonewindowsserver.ps1'))
 ```
 
-## Editing policies in Local Group Policy after the fact:
-- Import the ADMX Policy definitions from this [repo](https://github.com/simeononsecurity/STIG-Compliant-Domain-Prep/tree/master/Files/PolicyDefinitions) into *C:\windows\PolicyDefinitions* on the system you're trying to modify.
-- Open ```gpedit.msc``` on on the system you're trying to modify. 
