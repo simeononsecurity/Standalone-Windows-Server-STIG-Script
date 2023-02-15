@@ -603,6 +603,9 @@ if ($windows -eq $true) {
     #Confirm Changes
     auditpol /list /user /v
     auditpol.exe /get /category:*
+    
+    ## Delete the ECC Curves Regkey. Breaks windows update and psregistry. Could possibly be implemented if user implements a WSUS server on their network but in a standalone configuration the security gain is not worth the risk of not installing updates.
+    Remove-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Cryptography\Configuration\SSL\00010002\EccCurves' -Force
 
     #Basic authentication for RSS feeds over HTTP must not be used.
     New-Item -Path "HKLM:\Software\Policies\Microsoft\Internet Explorer" -Name "Feeds" -Force
