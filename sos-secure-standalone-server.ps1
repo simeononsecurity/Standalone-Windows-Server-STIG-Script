@@ -585,7 +585,7 @@ else {
 }
 
 if ($windows -eq $true) {
-    Write-Host "Implementing the Windows 10/11 STIGs" -ForegroundColor Green
+    Write-Host "Implementing the Windows Server STIGs" -ForegroundColor Green
     Import-GPOs -gposdir ".\Files\GPOs\DoD\Windows"
 
     Write-Host "Implementing simeononsecurity/Windows-Audit-Policy" -ForegroundColor Green
