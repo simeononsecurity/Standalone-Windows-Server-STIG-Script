@@ -24,6 +24,10 @@ We now offer a playbook collection for this script. Please see the following:
 - [Github Repo](https://github.com/simeononsecurity/Windows_STIG_Ansible)
 - [Ansible Galaxy](https://galaxy.ansible.com/simeononsecurity/windows_stigs)
 
+## Docker
+This script is tested using an automated docker container
+- [DockerHub](https://hub.docker.com/r/simeononsecurity/standalone-windows-server-stig)
+
 ## Requirements:
 - [X] [Standards](https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/oem-highly-secure) for a highly secure windows device.
 - [X] Bitlocker must be suspended or turned off prior to implementing this script, it can be enabled again after rebooting.
