@@ -1,6 +1,6 @@
 # STIGing Standalone Windows Servers
 
-[![Test script against windows docker container](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script/actions/workflows/test-with-docker.yml/badge.svg)](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script/actions/workflows/test-with-docker.yml)[![VirusTotal Scan](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script/actions/workflows/virustotal.yml/badge.svg)](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script/actions/workflows/virustotal.yml)
+ [![Sponsor](https://img.shields.io/badge/Sponsor-Click%20Here-ff69b4)](https://github.com/sponsors/simeononsecurity) [![Test script against windows docker container](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script/actions/workflows/test-with-docker.yml/badge.svg)](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script/actions/workflows/test-with-docker.yml)[![VirusTotal Scan](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script/actions/workflows/virustotal.yml/badge.svg)](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script/actions/workflows/virustotal.yml)
  
 Download all the required files from the [GitHub Repository](https://github.com/simeononsecurity/Standalone-Windows-Server-STIG-Script)
 
